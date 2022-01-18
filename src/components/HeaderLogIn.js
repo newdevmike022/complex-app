@@ -2,6 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function HeaderLogIn(props) {
+  const handleLogout = () => {
+    props.setLoggedIn(false);
+    localStorage.removeItem("complexappToken");
+    localStorage.removeItem("complexappUsername");
+    localStorage.removeItem("complexappAvatar");
+  };
+
   return (
     <div className="flex-row my-3 my-md-0">
       <Link to="#" className="text-white mr-2 header-search-icon">
@@ -12,12 +19,12 @@ function HeaderLogIn(props) {
         <span class="chat-count-badge text-white"> </span>
       </span>
       <Link to="#" className="mr-2">
-        <img className="small-header-avatar" src="https://steamuserimages-a.akamaihd.net/ugc/937206718582447090/916790A87ACC524FC5818B400AE683EF426ACCB9/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false" alt="avatar" />
+        <img className="small-header-avatar" src={localStorage.getItem("complexappAvatar")} alt="avatar" />
       </Link>
       <a className="btn btn-sm btn-success mr-2" href="/create-post">
         Create Post
       </a>
-      <button onClick={() => props.setLoggedIn(false)} className="btn btn-sm btn-secondary">
+      <button onClick={handleLogout} className="btn btn-sm btn-secondary">
         Sign Out
       </button>
     </div>
