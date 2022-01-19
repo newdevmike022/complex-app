@@ -16,14 +16,14 @@ function HeaderLogIn(props) {
       </Link>
       <span className="mr-2 header-chat-icon text-white">
         <i className="fas fa-comment"></i>
-        <span class="chat-count-badge text-white"> </span>
+        <span className="chat-count-badge text-white"> </span>
       </span>
       <Link to="#" className="mr-2">
         <img className="small-header-avatar" src={localStorage.getItem("complexappAvatar")} alt="avatar" />
       </Link>
-      <a className="btn btn-sm btn-success mr-2" href="/create-post">
+      <Link className="btn btn-sm btn-success mr-2" to="/create-post">
         Create Post
-      </a>
+      </Link>
       <button onClick={handleLogout} className="btn btn-sm btn-secondary">
         Sign Out
       </button>
