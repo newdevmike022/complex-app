@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect } from "react";
 import { useImmerReducer } from "use-immer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Axios from "axios";
@@ -16,6 +16,7 @@ import Footer from "./components/Footer";
 import CreatePost from "./components/CreatePost";
 import ViewSinglePost from "./components/ViewSinglePost";
 import FlashMess from "./components/FlashMess";
+import Profile from "./components/Profile";
 
 Axios.defaults.baseURL = "http://localhost:8080";
 
@@ -58,7 +59,7 @@ function App() {
       localStorage.removeItem("complexappUsername");
       localStorage.removeItem("complexappAvatar");
     }
-  }, [state.loggedIn]);
+  }, [state.loggedIn, state.user.avatar, state.user.token, state.user.username]);
 
   return (
     <StateContext.Provider value={state}>
@@ -67,8 +68,10 @@ function App() {
           <FlashMess messages={state.flashMess} />
           <Header />
           <Routes>
+            <Route path="/profile/:username/*" element={<Profile />} />
             <Route path="/" element={state.loggedIn ? <Home /> : <HomeGuest />} />
             <Route path="/post/:id" element={<ViewSinglePost />} />
+
             <Route path="/create-post" element={<CreatePost />} />
             <Route path="/about-us" element={<About />} />
             <Route path="/terms" element={<Terms />} />
