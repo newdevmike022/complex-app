@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Axios from "axios";
 
@@ -16,7 +16,26 @@ import ExampleContext from "./ExampleContext";
 Axios.defaults.baseURL = "http://localhost:8080";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(Boolean(localStorage.getItem("complexappToken")));
+  const initialState = {
+    loggedIn: Boolean(localStorage.getItem("complexappToken")),
+    flashMess: [],
+  };
+
+  function ourReducer(state, action) {
+    switch (action.type) {
+      case "login":
+        return { loggedIn: true, flashMess: state.flashMess };
+      case "logout":
+        return { loggedIn: false, flashMess: state.flashMess };
+      case "flashMessage":
+        return { loggedIn: state.loggedIn, flashMess: state.flashMess.concat(action.value) };
+      default:
+    }
+  }
+
+  const [state, dispatch] = useReducer(ourReducer, initialState);
+
+  const [loggedIn, setLoggedIn] = useState();
   const [flashMess, setFlashMess] = useState([]);
 
   const addFlashMess = (msg) => {
