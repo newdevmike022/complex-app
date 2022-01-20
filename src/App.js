@@ -1,4 +1,5 @@
 import React, { useState, useReducer } from "react";
+import { useImmerReducer } from "use-immer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Axios from "axios";
 
@@ -24,19 +25,22 @@ function App() {
     flashMess: [],
   };
 
-  function ourReducer(state, action) {
+  function ourReducer(draft, action) {
     switch (action.type) {
       case "login":
-        return { loggedIn: true, flashMess: state.flashMess };
+        draft.loggedIn = true;
+        break;
       case "logout":
-        return { loggedIn: false, flashMess: state.flashMess };
+        draft.loggedIn = false;
+        break;
       case "flashMessage":
-        return { loggedIn: state.loggedIn, flashMess: state.flashMess.concat(action.value) };
+        draft.flashMess.push(action.value);
+        break;
       default:
     }
   }
 
-  const [state, dispatch] = useReducer(ourReducer, initialState);
+  const [state, dispatch] = useImmerReducer(ourReducer, initialState);
 
   return (
     <StateContext.Provider value={state}>
