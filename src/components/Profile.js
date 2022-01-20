@@ -3,6 +3,7 @@ import Page from "./Page";
 import { Link, useParams } from "react-router-dom";
 import Axios from "axios";
 import StateContext from "../StateContext";
+import ProfilePosts from "./ProfilePosts";
 
 function Profile() {
   const { username } = useParams();
@@ -47,21 +48,7 @@ function Profile() {
             Following: {profileData.counts.followingCount}
           </Link>
         </div>
-
-        <div className="list-group">
-          <Link to="#" className="list-group-item list-group-item-action">
-            <img className="avatar-tiny" src="https://bbts1.azureedge.net/images/p/full/2021/03/be38a97c-9e0f-4f1e-9e79-33f47e4f7cd9.jpg" alt="avatar" /> <strong>Example Post #1</strong>
-            <span className="text-muted small">on 2/10/2020 </span>
-          </Link>
-          <Link to="#" className="list-group-item list-group-item-action">
-            <img className="avatar-tiny" src="https://bbts1.azureedge.net/images/p/full/2021/03/be38a97c-9e0f-4f1e-9e79-33f47e4f7cd9.jpg" alt="avatar" /> <strong>Example Post #2</strong>
-            <span className="text-muted small">on 2/10/2020 </span>
-          </Link>
-          <Link to="#" className="list-group-item list-group-item-action">
-            <img className="avatar-tiny" src="https://bbts1.azureedge.net/images/p/full/2021/03/be38a97c-9e0f-4f1e-9e79-33f47e4f7cd9.jpg" alt="avatar" /> <strong>Example Post #3</strong>
-            <span className="text-muted small">on 2/10/2020 </span>
-          </Link>
-        </div>
+        <ProfilePosts />
       </div>
     </Page>
   );
