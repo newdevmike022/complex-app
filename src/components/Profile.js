@@ -16,15 +16,20 @@ function Profile() {
   });
 
   useEffect(() => {
+    const ourRequest = Axios.CancelToken.source();
+
     const fetchData = async () => {
       try {
-        const response = await Axios.post(`/profile/${username}`, { token: appState.user.token });
+        const response = await Axios.post(`/profile/${username}`, { token: appState.user.token }, { cancelToken: ourRequest.token });
         setProfileData(response.data);
       } catch (e) {
         console.log("There was an error!");
       }
     };
     fetchData();
+    return () => {
+      ourRequest.cancel();
+    };
   }, [appState, username]);
 
   return (
