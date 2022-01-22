@@ -1,19 +1,50 @@
 import React, { useContext, useEffect } from "react";
 import DispatchContext from "../DispatchContext";
 import { Link } from "react-router-dom";
+import { useImmer } from "use-immer";
 
 const Search = () => {
   const appDispatch = useContext(DispatchContext);
+
+  const [state, setState] = useImmer({
+    searchTerm: "",
+    results: [],
+    show: "neither",
+    requestCount: 0,
+  });
 
   useEffect(() => {
     document.addEventListener("keyup", searchKeyPressHandler);
     return () => document.removeEventListener("keyup", searchKeyPressHandler);
   }, []);
 
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      setState((draft) => {
+        draft.requestCount++;
+      });
+    }, 3000);
+
+    return () => clearTimeout(delay);
+  }, [state.searchTerm]);
+
+  useEffect(() => {
+    if (state.requestCount) {
+      // Send Axios request here
+    }
+  }, [state.requestCount]);
+
   const searchKeyPressHandler = (e) => {
     if (e.keyCode === 27) {
       appDispatch({ type: "closeSearch" });
     }
+  };
+
+  const handleInput = (e) => {
+    const value = e.target.value;
+    setState((draft) => {
+      draft.searchTerm = value;
+    });
   };
 
   return (
@@ -23,7 +54,7 @@ const Search = () => {
           <label htmlFor="live-search-field" className="search-overlay-icon">
             <i className="fas fa-search"></i>
           </label>
-          <input autoFocus type="text" autoComplete="off" id="live-search-field" className="live-search-field" placeholder="What are you interested in?" />
+          <input onChange={handleInput} autoFocus type="text" autoComplete="off" id="live-search-field" className="live-search-field" placeholder="What are you interested in?" />
           <span onClick={() => appDispatch({ type: "closeSearch" })} className="close-live-search">
             <i className="fas fa-times-circle"></i>
           </span>
