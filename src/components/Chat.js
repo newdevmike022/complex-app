@@ -2,6 +2,8 @@ import React, { useEffect, useContext, useRef } from "react";
 import StateContext from "../StateContext";
 import DispatchContext from "../DispatchContext";
 import { useImmer } from "use-immer";
+import io from "socket.io-client";
+const socket = io("http://localhost:8080");
 
 const Chat = () => {
   const chatField = useRef(null);
@@ -18,6 +20,14 @@ const Chat = () => {
     }
   }, [appState.isChatOpen]);
 
+  useEffect(() => {
+    socket.on("chatFromServer", (message) => {
+      setState((draft) => {
+        draft.chatMessages.push(message);
+      });
+    });
+  }, []);
+
   const handleFieldChange = (e) => {
     const value = e.target.value;
     setState((draft) => {
@@ -28,6 +38,10 @@ const Chat = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Send message to chat server
+    socket.emit("chatFromBrowser", {
+      message: state.fieldValue,
+      token: appState.user.token,
+    });
 
     setState((draft) => {
       // Add message to state collection of messages
@@ -69,9 +83,9 @@ const Chat = () => {
               <div className="chat-message">
                 <div className="chat-message-inner">
                   <a href="#">
-                    <strong>barksalot:</strong>
+                    <strong>{message.username}:</strong>
                   </a>
-                  Hey, I am good, how about you?
+                  {message.message}
                 </div>
               </div>
             </div>
