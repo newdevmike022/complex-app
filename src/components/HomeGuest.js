@@ -177,7 +177,7 @@ function HomeGuest() {
       fetchResults();
       return () => ourRequest.cancel();
     }
-  }, [state.submitCount]);
+  }, [state.submitCount, appDispatch, state.username.value, state.email.value, state.password.value]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
