@@ -84,9 +84,9 @@ function ViewSinglePost() {
               <i className="fas fa-edit"></i>
             </Link>
             <ReactTooltip id="edit" className="custom-tooltip" />{" "}
-            <a onClick={deleteHandler} data-tip="Delete" data-for="delete" className="delete-post-button text-danger">
+            <Link to onClick={deleteHandler} data-tip="Delete" data-for="delete" className="delete-post-button text-danger">
               <i className="fas fa-trash"></i>
-            </a>
+            </Link>
             <ReactTooltip id="delete" className="custom-tooltip" />
           </span>
         )}

@@ -118,7 +118,7 @@ function EditPost() {
       const fetchPost = async () => {
         try {
           const response = await Axios.post(`/post/${state.id}/edit`, { title: state.title.value, body: state.body.value, token: appState.user.token }, { cancelToken: ourRequest.token });
-          dispatch({ type: "saveRequestFinished" });
+          dispatch({ type: "saveRequestFinished", data: response.data });
           appDispatch({ type: "flashMessage", value: "Post was updated!" });
         } catch (e) {
           console.log("The request was canceled!");
